@@ -6,7 +6,7 @@ Simple tools for cryptocurrency market analysis.
 
 ### Tickers
 
-Can show tickers of all tokens.
+Show tickers of all tokens on set exchange.
 
 ### Alerts
 
