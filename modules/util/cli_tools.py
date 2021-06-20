@@ -19,8 +19,8 @@ class CliTools:
 
     # Bool selection (yes or no)
     def yes_no(self, q, new_line=True) -> bool:
-        y_pattern = '(?:y$|Y$|^$)'
-        n_pattern = '(?:n$|N$)'
+        y_pattern = '(?:^y$|^Y$|^$)'
+        n_pattern = '(?:^n$|^N$)'
         while True:
             response = input('\n' * new_line + f'{q} [y/n]: ')
             if re.match(y_pattern, response):

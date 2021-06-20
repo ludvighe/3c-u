@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date, datetime
 import secrets
 import smtplib
 from email.message import EmailMessage
@@ -26,7 +26,7 @@ def email(subject: str, body: str, to: str = secrets.TO_EMAIL_ADDRESS):
 def start_alerter(subject: str, body: str, boolfunc, check_interval_minutes: int = 10, name: str = '') -> threading.Thread:
     def waiter():
         while True:
-            print(f'\nRunning alert check: [{name}]')
+            print(f'\n{datetime.now()}: Running alert check: [{name}]')
             if boolfunc():
                 print(f'Conditions met! Cancelling alert: {name}')
                 email(subject, body + f'\n\n Sent {datetime.now()}')
