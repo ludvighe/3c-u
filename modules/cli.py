@@ -1,6 +1,5 @@
 import secrets
 import pandas as pd
-from datetime import datetime
 
 from modules.util.cli_tools import CliTools
 import shrimpy_api.shrimpy_api as shrimpy
@@ -46,7 +45,8 @@ class Cli:
         df = pd.DataFrame(shrimpy.fetch_market_data(
             exchange=settings.settings['exchange']))
 
-        view_tokens = self.cli.yes_no('View all available tickers?')
+        view_tokens = self.cli.yes_no(
+            'View all available tickers on exchange [' + settings.settings['exchange'] + ']?')
         if view_tokens:
             print(df.set_index('symbol').sort_index().to_markdown())
 

@@ -4,6 +4,8 @@
 
 import re
 
+from .ansi import Ansi
+
 
 class CliTools:
 
@@ -11,7 +13,7 @@ class CliTools:
     def clear(self):
         print(
             'If you can see this without scrolling up your terminal does not support ANSI.')
-        print('\033[2J')
+        print(Ansi.clear())
 
     # Prints a block of characters of width xlen and height of length ylen
     def separator(self, xlen=30, ylen=1, char='=') -> str:
@@ -41,7 +43,6 @@ class CliTools:
             return a
 
     # Prints numbered list
-
     def list_print(self, items: list, index: list = None) -> None:
         # Preprocessing
         max_option_len = 0
@@ -55,22 +56,22 @@ class CliTools:
         # Print
         for i in range(len(items)):
             sel = str(i) if index == None else index[i]
-            print(
-                '\033[100m' * (i % 2 == 0 and len(items) > 2) +
-                sel +
-                ': ' + ' ' * (max_index_len - len(sel)) +
-                items[i] +
-                ' ' * (max_option_len - len(items[i])) +
-                '\033[0m'
-            )
+            row = sel + ': ' + ' ' * \
+                (max_index_len - len(sel)) + \
+                items[i] + ' ' * ((max_option_len + 1) - len(items[i]))
+            if i % 2 == 0 and len(items) > 2:
+                print(Ansi.fmt(row, Ansi.NEGATIVE))
+            else:
+                print(row)
 
     # Prints menu and returns index of selection
     # Does not print options (on start) if quiet is True
     # Returns -1 on quit if -q is entered
     def menu(self, title, options: list, index: list = None, quiet=False) -> int:
-        help_text = 'Please enter number designated to certain menu or\n"-h" to see help\n"-q" to exit menu\n"-m" to see menu options\n"-c" to clear window\n'
+        help_text = 'Please enter ' + 'number' * (index == None) + 'index value' * (
+            index != None) + ' designated to certain menu or\n"-h" to see help\n"-q" to exit menu\n"-m" to see menu options\n"-c" to clear window\n'
 
-        print('\n' + title)
+        print('\n' + Ansi.fmt(title, Ansi.ESC + Ansi.FG_BRIGHT_BLUE))
 
         if not quiet:
             self.list_print(options, index)

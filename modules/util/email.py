@@ -6,6 +6,7 @@ import threading
 import time
 
 
+# Send email with [subject] and [body] to address [to]
 def email(subject: str, body: str, to: str = secrets.TO_EMAIL_ADDRESS):
     user = secrets.EMAIL_ADDRESS
     password = secrets.EMAIL_PASSWORD
@@ -23,6 +24,8 @@ def email(subject: str, body: str, to: str = secrets.TO_EMAIL_ADDRESS):
     server.quit()
 
 
+# Creates a thread with [name] that checks a [boolfunc] every [check_interval_minutes]
+# Sends an email with [subject] and [body] if [boolfunc] returns True
 def start_alerter(subject: str, body: str, boolfunc, check_interval_minutes: int = 10, name: str = '') -> threading.Thread:
     def waiter():
         while True:
